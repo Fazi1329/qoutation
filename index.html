@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>QueueFlow AI — Sales & Customer Service Management</title>
+  <meta name="description" content="Unified sales and customer-service queue management system powered by AI triage and smart automations for SMBs." />
+
+  <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="app-body">
+  <div class="app-shell" id="appShell">
+    
+    <!-- Mobile Header Bar -->
+    <header class="mobile-header">
+      <div class="mobile-brand">
+        <div class="logo-icon">QF</div>
+        <span class="logo-text">QueueFlow<span class="accent-text">AI</span></span>
+      </div>
+      <div class="mobile-actions">
+        <button class="icon-btn" id="mobileNotifBtn" title="Notifications" aria-label="Notifications">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="badge-dot notif-badge"></span>
+        </button>
+        <button class="icon-btn" id="sidebarToggle" aria-label="Toggle menu">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="brand">
+          <div class="logo-badge">
+            <svg class="logo-svg" viewBox="0 0 28 28" fill="none">
+              <rect width="28" height="28" rx="8" fill="url(#brandGrad)"/>
+              <path d="M7 14L12 9V19L7 14Z" fill="white" opacity="0.9"/>
+              <path d="M14 7L19 12H9L14 7Z" fill="white"/>
+              <circle cx="17.5" cy="17.5" r="3.5" fill="#a78bfa"/>
+              <defs>
+                <linearGradient id="brandGrad" x1="0" y1="0" x2="28" y2="28" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#2563eb"/>
+                  <stop offset="1" stop-color="#7c3aed"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <div class="brand-info">
+            <div class="brand-name">QueueFlow <span class="ai-pill">AI</span></div>
+            <div class="brand-tagline">Sales & Support Hub</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Action: Submit Customer Enquiry -->
+      <div class="sidebar-quick-action">
+        <button class="btn btn-primary btn-block" id="openNewEnquiryBtn">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <span>New Enquiry</span>
+        </button>
+      </div>
+
+      <!-- Main Navigation Links -->
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">MAIN WORKSPACE</div>
+        <button class="nav-item active" data-view="dashboard">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+          <span>Dashboard & Reports</span>
+        </button>
+
+        <button class="nav-item" data-view="queue">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          <span>Ticket Queue</span>
+          <span class="nav-badge" id="openTicketsBadge">8</span>
+        </button>
+
+        <button class="nav-item" data-view="pipeline">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          <span>Sales Pipeline</span>
+          <span class="nav-badge purple" id="activeDealsBadge">7</span>
+        </button>
+
+        <button class="nav-item" data-view="ai-assistant">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+          <span>AI Triage & Copilot</span>
+          <span class="nav-pill-live">SMART</span>
+        </button>
+
+        <div class="nav-section-label">OPERATIONS</div>
+        <button class="nav-item" data-view="automations">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span>Automations & SLA</span>
+        </button>
+
+        <button class="nav-item" data-view="customer-portal">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Customer Portal View</span>
+        </button>
+      </nav>
+
+      <!-- Sidebar Footer: Active Profile & Role -->
+      <div class="sidebar-footer">
+        <div class="user-profile-card">
+          <div class="avatar" id="currentAvatar">DV</div>
+          <div class="user-details">
+            <div class="user-name" id="currentUserName">David Vance</div>
+            <div class="user-role-badge" id="currentUserRoleTag">Admin</div>
+          </div>
+        </div>
+        <div class="role-selector-wrap">
+          <label class="field-label-xs" for="roleSelect">Switch Active Role:</label>
+          <select id="roleSelect" class="form-select role-select">
+            <option value="admin">Admin (Full Control)</option>
+            <option value="manager">Manager (Queue & Approvals)</option>
+            <option value="support">Support Agent (Liam Chen)</option>
+            <option value="sales">Sales Agent (Maya Brooks)</option>
+            <option value="customer">Customer (External View)</option>
+          </select>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="main-wrapper">
+      
+      <!-- Top Application Header -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="search-input-wrap">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="globalSearchInput" class="search-input" placeholder="Search tickets, customers, deals, IDs (e.g. QF-1048)..." />
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <!-- Live Status Indicator -->
+          <div class="system-status" title="QueueFlow AI Engine is Online">
+            <span class="status-indicator-dot online"></span>
+            <span class="status-indicator-text">AI Core Active</span>
+          </div>
+
+          <!-- Notification Bell Dropdown -->
+          <div class="dropdown-wrap">
+            <button class="topbar-btn" id="notifBellBtn" title="Automations & Notifications" aria-label="Notifications">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              <span class="badge-dot notif-badge" id="notifBadgeDot"></span>
+            </button>
+            <div class="dropdown-menu notif-menu hidden" id="notifDropdown">
+              <div class="dropdown-header">
+                <span class="dropdown-title">System Activity & Alerts</span>
+                <button class="text-btn" id="clearNotifsBtn">Clear</button>
+              </div>
+              <div class="notif-list" id="notifList">
+                <!-- Notifications populated via JS -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Reset Sample Data Button -->
+          <button class="btn btn-outline btn-sm" id="resetDataBtn" title="Reset to original sample data">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M3 21v-5h5"/></svg>
+            <span>Reset Demo</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- View Container -->
+      <main class="content-container">
+
+        <!-- ======================================================== -->
+        <!-- VIEW 1: DASHBOARD & REPORTS                             -->
+        <!-- ======================================================== -->
+        <section class="app-view active" id="view-dashboard">
+          <div class="view-header">
+            <div>
+              <h1 class="view-title">Executive Dashboard & Reports</h1>
+              <p class="view-subtitle">Real-time pulse of customer queue throughput, AI triage speed, and sales performance.</p>
+            </div>
+            <div class="view-header-actions">
+              <button class="btn btn-secondary" id="exportReportBtn">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span>Export Summary</span>
+              </button>
+              <button class="btn btn-primary" id="dashNewEnquiryBtn">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <span>New Ticket</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Role Access Notice Banner -->
+          <div class="role-notice-banner hidden" id="roleNoticeBanner">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span id="roleNoticeText">Role filtered view active.</span>
+          </div>
+
+          <!-- KPI Metric Cards Grid -->
+          <div class="kpi-grid">
+            <div class="kpi-card" data-card="open-tickets">
+              <div class="kpi-header">
+                <span class="kpi-label">Total Open Tickets</span>
+                <div class="kpi-icon-wrap blue">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                </div>
+              </div>
+              <div class="kpi-value" id="kpiOpenTickets">6</div>
+              <div class="kpi-meta"><span class="kpi-trend positive">↑ 12%</span> vs last week</div>
+            </div>
+
+            <div class="kpi-card" data-card="unassigned">
+              <div class="kpi-header">
+                <span class="kpi-label">Unassigned Tickets</span>
+                <div class="kpi-icon-wrap amber">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+                </div>
+              </div>
+              <div class="kpi-value" id="kpiUnassignedTickets">2</div>
+              <div class="kpi-meta"><span class="badge badge-warning">Needs Attention</span></div>
+            </div>
+
+            <div class="kpi-card" data-card="urgent">
+              <div class="kpi-header">
+                <span class="kpi-label">Urgent / Escalated</span>
+                <div class="kpi-icon-wrap red">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                </div>
+              </div>
+              <div class="kpi-value" id="kpiUrgentTickets">2</div>
+              <div class="kpi-meta"><span class="kpi-subtext">AI priority flagged</span></div>
+            </div>
+
+            <div class="kpi-card" data-card="first-response">
+              <div class="kpi-header">
+                <span class="kpi-label">Avg First-Response</span>
+                <div class="kpi-icon-wrap emerald">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+              </div>
+              <div class="kpi-value" id="kpiFirstResponse">14m</div>
+              <div class="kpi-meta"><span class="kpi-trend positive">↓ 6m</span> faster with AI</div>
+            </div>
+
+            <div class="kpi-card" data-card="resolution-time">
+              <div class="kpi-header">
+                <span class="kpi-label">Avg Resolution Time</span>
+                <div class="kpi-icon-wrap indigo">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                </div>
+              </div>
+              <div class="kpi-value" id="kpiResolutionTime">2.8h</div>
+              <div class="kpi-meta"><span class="badge badge-success">98.2% in SLA</span></div>
+            </div>
+
+            <div class="kpi-card" data-card="pipeline-value">
+              <div class="kpi-header">
+                <span class="kpi-label">Active Pipeline Value</span>
+                <div class="kpi-icon-wrap purple">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                </div>
+              </div>
+              <div class="kpi-value" id="kpiPipelineValue">$184,500</div>
+              <div class="kpi-meta"><span id="kpiWonCount">3 deals won</span> this month</div>
+            </div>
+          </div>
+
+          <!-- Charts and Analytics Breakdown -->
+          <div class="dashboard-grid">
+            
+            <!-- Left Chart: Tickets Resolved per Employee -->
+            <div class="card chart-card">
+              <div class="card-header-clean">
+                <div>
+                  <h3 class="card-title-md">Tickets Resolved per Employee</h3>
+                  <p class="card-subtitle-sm">Performance and throughput by team member</p>
+                </div>
+                <span class="pill-badge">This Month</span>
+              </div>
+              <div class="card-body-clean">
+                <div class="employee-bars" id="employeeBarsContainer">
+                  <!-- Generated dynamically via JS -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Chart: Sales Pipeline Stages Funnel -->
+            <div class="card chart-card">
+              <div class="card-header-clean">
+                <div>
+                  <h3 class="card-title-md">Leads by Sales Stage</h3>
+                  <p class="card-subtitle-sm">Distribution across the 7 revenue stages</p>
+                </div>
+                <button class="text-link-sm" data-nav-target="pipeline">View Board →</button>
+              </div>
+              <div class="card-body-clean">
+                <div class="pipeline-funnel" id="pipelineFunnelContainer">
+                  <!-- Generated dynamically via JS -->
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Live Activity Feed & Urgent Attention Panel -->
+          <div class="dashboard-secondary-grid">
+            <div class="card table-card">
+              <div class="card-header-clean">
+                <h3 class="card-title-md">Requires Immediate Attention</h3>
+                <span class="badge badge-danger">High / Urgent Priority</span>
+              </div>
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Ticket ID</th>
+                      <th>Customer</th>
+                      <th>Subject</th>
+                      <th>Type</th>
+                      <th>Priority</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="dashUrgentTableBody">
+                    <!-- Populated via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- VIEW 2: TICKET QUEUE MANAGEMENT                         -->
+        <!-- ======================================================== -->
+        <section class="app-view" id="view-queue">
+          <div class="view-header">
+            <div>
+              <h1 class="view-title">Unified Queue Management</h1>
+              <p class="view-subtitle">Prioritized routing, SLA tracking, employee assignments, and AI recommendations.</p>
+            </div>
+            <div class="view-header-actions">
+              <button class="btn btn-primary" id="queueNewEnquiryBtn">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <span>Submit Enquiry</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Queue Sub-Tabs -->
+          <div class="queue-subtabs-bar">
+            <div class="tab-pills" id="queueTabs">
+              <button class="tab-pill active" data-queue-filter="all">All Tickets <span class="tab-count" id="countAll">0</span></button>
+              <button class="tab-pill" data-queue-filter="my-queue">My Queue <span class="tab-count" id="countMyQueue">0</span></button>
+              <button class="tab-pill" data-queue-filter="unassigned">Unassigned <span class="tab-count" id="countUnassigned">0</span></button>
+              <button class="tab-pill" data-queue-filter="urgent">Urgent <span class="tab-count" id="countUrgent">0</span></button>
+              <button class="tab-pill" data-queue-filter="overdue">Overdue <span class="tab-count" id="countOverdue">0</span></button>
+              <button class="tab-pill" data-queue-filter="resolved">Resolved / Closed <span class="tab-count" id="countResolved">0</span></button>
+            </div>
+          </div>
+
+          <!-- Search & Filter Controls -->
+          <div class="filter-toolbar">
+            <div class="filter-inputs">
+              <div class="filter-item">
+                <label class="filter-label">Search:</label>
+                <input type="text" id="queueSearchInput" class="form-input form-input-sm" placeholder="ID, name, subject..." />
+              </div>
+
+              <div class="filter-item">
+                <label class="filter-label">Priority:</label>
+                <select id="filterPriority" class="form-select form-select-sm">
+                  <option value="">All Priorities</option>
+                  <option value="Urgent">Urgent</option>
+                  <option value="High">High</option>
+                  <option value="Medium">Medium</option>
+                  <option value="Low">Low</option>
+                </select>
+              </div>
+
+              <div class="filter-item">
+                <label class="filter-label">Department:</label>
+                <select id="filterType" class="form-select form-select-sm">
+                  <option value="">All Types</option>
+                  <option value="Sales">Sales</option>
+                  <option value="General Support">General Support</option>
+                  <option value="Complaint">Complaint</option>
+                  <option value="Billing">Billing</option>
+                  <option value="Technical Support">Technical Support</option>
+                </select>
+              </div>
+
+              <div class="filter-item">
+                <label class="filter-label">Status:</label>
+                <select id="filterStatus" class="form-select form-select-sm">
+                  <option value="">All Statuses</option>
+                  <option value="New">New</option>
+                  <option value="Unassigned">Unassigned</option>
+                  <option value="Assigned">Assigned</option>
+                  <option value="In Progress">In Progress</option>
+                  <option value="Waiting for Customer">Waiting for Customer</option>
+                  <option value="Escalated">Escalated</option>
+                  <option value="Resolved">Resolved</option>
+                  <option value="Closed">Closed</option>
+                </select>
+              </div>
+
+              <div class="filter-item">
+                <label class="filter-label">Assigned To:</label>
+                <select id="filterAssignee" class="form-select form-select-sm">
+                  <option value="">All Staff</option>
+                  <option value="Unassigned">Unassigned Only</option>
+                  <option value="Liam Chen">Liam Chen (Support)</option>
+                  <option value="Maya Brooks">Maya Brooks (Sales)</option>
+                  <option value="Elena Rostova">Elena Rostova (Manager)</option>
+                  <option value="David Vance">David Vance (Admin)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="filter-actions">
+              <button class="btn btn-outline btn-sm" id="clearFiltersBtn">Reset Filters</button>
+            </div>
+          </div>
+
+          <!-- Queue Table Card -->
+          <div class="card table-card">
+            <div class="table-responsive">
+              <table class="data-table" id="queueTable">
+                <thead>
+                  <tr>
+                    <th>Ticket ID</th>
+                    <th>Customer</th>
+                    <th>Enquiry & Details</th>
+                    <th>Type</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Assigned To</th>
+                    <th>Submitted</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="queueTableBody">
+                  <!-- Populated via JS -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state hidden" id="queueEmptyState">
+              <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+              <h4 class="empty-title">No tickets match current filters</h4>
+              <p class="empty-desc">Try clearing your filters or submit a new enquiry.</p>
+              <button class="btn btn-secondary btn-sm" id="emptyClearFiltersBtn">Clear Filters</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- VIEW 3: SALES PIPELINE (7 STAGES)                       -->
+        <!-- ======================================================== -->
+        <section class="app-view" id="view-pipeline">
+          <div class="view-header">
+            <div>
+              <h1 class="view-title">Sales Pipeline Management</h1>
+              <p class="view-subtitle">Track prospect deals across all 7 stages from initial lead to closed-won revenue.</p>
+            </div>
+            <div class="view-header-actions">
+              <div class="pipeline-view-switch">
+                <button class="switch-btn active" id="pipelineBoardViewBtn">Board View</button>
+                <button class="switch-btn" id="pipelineListViewBtn">List View</button>
+              </div>
+              <button class="btn btn-primary" id="openNewDealBtn">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <span>Add Deal</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Pipeline Summary Metrics Ribbon -->
+          <div class="pipeline-summary-ribbon">
+            <div class="ribbon-item">
+              <span class="ribbon-label">Total Deals:</span>
+              <span class="ribbon-val" id="pipeTotalDeals">7</span>
+            </div>
+            <div class="ribbon-divider"></div>
+            <div class="ribbon-item">
+              <span class="ribbon-label">Pipeline Value:</span>
+              <span class="ribbon-val" id="pipeTotalValue">$184,500</span>
+            </div>
+            <div class="ribbon-divider"></div>
+            <div class="ribbon-item">
+              <span class="ribbon-label">Won This Period:</span>
+              <span class="ribbon-val emerald-text" id="pipeWonValue">$78,000 (3)</span>
+            </div>
+            <div class="ribbon-divider"></div>
+            <div class="ribbon-item">
+              <span class="ribbon-label">Follow-ups Today:</span>
+              <span class="ribbon-val amber-text" id="pipeFollowupsToday">2 Due</span>
+            </div>
+          </div>
+
+          <!-- Kanban Board (7 Stages) -->
+          <div class="kanban-wrapper" id="kanbanBoardWrapper">
+            <div class="kanban-board" id="kanbanBoard">
+              <!-- Columns created dynamically: New Lead, Contacted, Qualified, Meeting Scheduled, Proposal Sent, Negotiation, Won / Lost -->
+            </div>
+          </div>
+
+          <!-- Alternative List View for Pipeline -->
+          <div class="card table-card hidden" id="pipelineListWrapper">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Deal / Company</th>
+                    <th>Contact Person</th>
+                    <th>Value ($)</th>
+                    <th>Stage</th>
+                    <th>Next Follow-up</th>
+                    <th>Sales Owner</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="pipelineTableBody">
+                  <!-- Populated via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- VIEW 4: AI TRIAGE & COPILOT WORKBENCH                   -->
+        <!-- ======================================================== -->
+        <section class="app-view" id="view-ai-assistant">
+          <div class="view-header">
+            <div>
+              <div class="badge-tag-ai">AI COPILOT CORE</div>
+              <h1 class="view-title">Intelligent Enquiry Triage & Assistance</h1>
+              <p class="view-subtitle">AI-assisted categorization, sentiment risk scoring, automated summaries, and human-approved draft replies.</p>
+            </div>
+          </div>
+
+          <div class="ai-workbench-grid">
+            
+            <!-- Left Panel: Select Enquiry to Analyze -->
+            <div class="card ai-card">
+              <div class="card-header-clean">
+                <h3 class="card-title-md">Active Enquiries for AI Triage</h3>
+                <span class="pill-badge" id="aiQueueCounter">6 Pending Analysis</span>
+              </div>
+              <div class="ai-ticket-selector-list" id="aiTicketSelectorList">
+                <!-- Ticket list populated via JS -->
+              </div>
+            </div>
+
+            <!-- Right Panel: AI Live Inspector -->
+            <div class="card ai-inspector-card" id="aiInspectorPanel">
+              <div class="ai-inspector-header">
+                <div>
+                  <span class="ai-badge-sm">Selected Ticket</span>
+                  <h3 class="inspector-title" id="aiSelectedTicketTitle">Select an enquiry to run AI triage</h3>
+                </div>
+                <div class="ai-status-pill" id="aiAnalysisStatus">Ready for Triage</div>
+              </div>
+
+              <div class="ai-inspector-body" id="aiInspectorContent">
+                <!-- Fallback state -->
+                <div class="ai-empty-prompt" id="aiEmptyPrompt">
+                  <svg class="icon-lg text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                  <p>Choose any customer enquiry from the left list to generate instant classification, smart department routing, summary, and editable response draft.</p>
+                </div>
+
+                <!-- Active AI Details (hidden until selected) -->
+                <div class="ai-results-pane hidden" id="aiResultsPane">
+                  
+                  <!-- Urgency & Sentiment Flag -->
+                  <div class="ai-alert-banner" id="aiUrgencyBanner">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    <div>
+                      <strong id="aiFlagTitle">High Frustration / Escalation Risk Detected</strong>
+                      <div class="text-xs" id="aiFlagDesc">Customer mentions multiple failed transactions. Human agent review advised.</div>
+                    </div>
+                  </div>
+
+                  <!-- Grid of AI Classifications -->
+                  <div class="ai-tag-grid">
+                    <div class="ai-tag-box">
+                      <span class="ai-tag-label">Predicted Category</span>
+                      <div class="ai-tag-val" id="aiCatVal">Billing & Invoices</div>
+                    </div>
+                    <div class="ai-tag-box">
+                      <span class="ai-tag-label">Suggested Priority</span>
+                      <div class="ai-tag-val" id="aiPriVal"><span class="badge badge-danger">Urgent</span></div>
+                    </div>
+                    <div class="ai-tag-box">
+                      <span class="ai-tag-label">Department Routing</span>
+                      <div class="ai-tag-val" id="aiDeptVal">Finance & Support</div>
+                    </div>
+                    <div class="ai-tag-box">
+                      <span class="ai-tag-label">Sentiment Score</span>
+                      <div class="ai-tag-val" id="aiSentVal">Negative (-0.82)</div>
+                    </div>
+                  </div>
+
+                  <!-- Executive Issue Summary -->
+                  <div class="ai-section">
+                    <label class="ai-section-label">AI Issue Summary:</label>
+                    <div class="ai-summary-text" id="aiSummaryText">
+                      Customer was charged twice on invoice #INV-4921 due to a gateway timeout. Requested immediate credit refund before tomorrow's audit.
+                    </div>
+                  </div>
+
+                  <!-- Recommended Next Action -->
+                  <div class="ai-section">
+                    <label class="ai-section-label">Recommended Next Action:</label>
+                    <div class="ai-rec-action" id="aiNextActionText">
+                      <strong>Action:</strong> Open Stripe portal to void charge #ch_9281, issue refund receipt, and notify customer with the approved draft below.
+                    </div>
+                  </div>
+
+                  <!-- Draft Reply Composer (Human-in-the-loop: Editable & requires explicit approval!) -->
+                  <div class="ai-section">
+                    <div class="composer-header">
+                      <label class="ai-section-label">AI Drafted Response (Editable before sending):</label>
+                      <div class="tone-selector">
+                        <span class="text-xs text-muted">Tone:</span>
+                        <select id="aiToneSelect" class="form-select form-select-xs">
+                          <option value="empathetic">Empathetic & Reassuring</option>
+                          <option value="concise">Concise & Direct</option>
+                          <option value="formal">Formal Corporate</option>
+                          <option value="sales">Sales & Value Driven</option>
+                        </select>
+                        <button class="btn btn-outline btn-xs" id="regenerateDraftBtn" title="Regenerate with selected tone">Re-Draft</button>
+                      </div>
+                    </div>
+
+                    <textarea id="aiDraftEditor" class="form-textarea ai-draft-textarea" rows="6"></textarea>
+
+                    <div class="ai-draft-actions">
+                      <span class="text-xs text-muted">
+                        <svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                        Messages are never sent automatically without agent approval.
+                      </span>
+                      <div class="btn-group">
+                        <button class="btn btn-secondary btn-sm" id="applyAiClassificationBtn">Apply AI Tags to Ticket</button>
+                        <button class="btn btn-primary btn-sm" id="approveAndSendReplyBtn">
+                          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                          <span>Approve & Send to Customer</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- VIEW 5: AUTOMATIONS & SLA CONFIGURATION                 -->
+        <!-- ======================================================== -->
+        <section class="app-view" id="view-automations">
+          <div class="view-header">
+            <div>
+              <h1 class="view-title">Automations & SLA Workflows</h1>
+              <p class="view-subtitle">Configurable rules for automated routing, breach alerts, customer receipts, and audit trail.</p>
+            </div>
+            <div class="view-header-actions">
+              <button class="btn btn-primary" id="testRulesBtn">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <span>Trigger Automation Run</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="automation-grid">
+            
+            <!-- Rules Toggles Card -->
+            <div class="card p-4">
+              <h3 class="card-title-md mb-3">Active Workflow Rules</h3>
+              <div class="rule-list">
+                
+                <div class="rule-item">
+                  <div class="rule-info">
+                    <strong class="rule-name">1. Customer Receipt Confirmation</strong>
+                    <p class="rule-desc">Automatically send email/SMS confirmation with unique Ticket ID immediately upon submission.</p>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="ruleReceipt" checked />
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+
+                <div class="rule-item">
+                  <div class="rule-info">
+                    <strong class="rule-name">2. Employee Assignment Notification</strong>
+                    <p class="rule-desc">Alert assigned employee via desktop notification and feed when a ticket is assigned to them.</p>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="ruleAssign" checked />
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+
+                <div class="rule-item">
+                  <div class="rule-info">
+                    <strong class="rule-name">3. Manager Escalation Alert (Urgent/Overdue)</strong>
+                    <p class="rule-desc">Immediately ping Elena Rostova (Manager) when a ticket is marked Urgent or exceeds SLA target.</p>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="ruleEscalate" checked />
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+
+                <div class="rule-item">
+                  <div class="rule-info">
+                    <strong class="rule-name">4. Sales Follow-Up Reminders</strong>
+                    <p class="rule-desc">Remind sales staff 24 hours prior to scheduled prospect follow-up dates.</p>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="ruleFollowup" checked />
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+
+                <div class="rule-item">
+                  <div class="rule-info">
+                    <strong class="rule-name">5. Auto Customer Notification on Status Change</strong>
+                    <p class="rule-desc">Notify customer when ticket advances to 'In Progress', 'Waiting for Customer', or 'Resolved'.</p>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="ruleStatusNotif" checked />
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Outgoing Messaging Integration Simulation -->
+            <div class="card p-4">
+              <h3 class="card-title-md mb-2">Messaging Integrations & Dispatch Log</h3>
+              <p class="card-subtitle-sm mb-3">Live trace of simulated outbound customer notifications (Email, SMS, WhatsApp).</p>
+              
+              <div class="dispatch-log" id="dispatchLogList">
+                <!-- Log entries added dynamically -->
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Comprehensive Audit Trail History -->
+          <div class="card table-card mt-4">
+            <div class="card-header-clean">
+              <h3 class="card-title-md">Full System Audit Trail & Interaction History</h3>
+              <span class="badge badge-secondary">Immutable Log</span>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Timestamp</th>
+                    <th>Ticket / Deal ID</th>
+                    <th>Actor / Trigger</th>
+                    <th>Action Type</th>
+                    <th>Details / Changes Recorded</th>
+                  </tr>
+                </thead>
+                <tbody id="auditTrailTableBody">
+                  <!-- Filled via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- VIEW 6: CUSTOMER SELF-SERVICE PORTAL                     -->
+        <!-- ======================================================== -->
+        <section class="app-view" id="view-customer-portal">
+          <div class="customer-portal-hero">
+            <div class="portal-badge">CUSTOMER SELF-SERVICE PORTAL</div>
+            <h1 class="portal-title">Sadr Quotation & Customer Support</h1>
+            <p class="portal-subtitle">Submit a new enquiry, request a sales quotation, or track your existing ticket progress in real-time.</p>
+          </div>
+
+          <div class="customer-portal-grid">
+            
+            <!-- Box A: Submit Enquiry -->
+            <div class="card p-6">
+              <div class="card-header-clean mb-3">
+                <div>
+                  <h3 class="card-title-md">Submit a New Enquiry</h3>
+                  <p class="card-subtitle-sm">Our AI-assisted team typically responds in under 15 minutes.</p>
+                </div>
+              </div>
+
+              <form id="portalCustomerForm" class="auth-form" novalidate>
+                <div class="form-row-2">
+                  <div class="form-group">
+                    <label class="form-label" for="portalName">Your Full Name *</label>
+                    <input type="text" id="portalName" class="form-input" placeholder="e.g. Sarah Jenkins" required />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="portalEmail">Your Email Address *</label>
+                    <input type="email" id="portalEmail" class="form-input" placeholder="sarah@acme.com" required />
+                  </div>
+                </div>
+
+                <div class="form-row-2">
+                  <div class="form-group">
+                    <label class="form-label" for="portalPhone">Phone Number</label>
+                    <input type="tel" id="portalPhone" class="form-input" placeholder="+1 (555) 349-2019" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="portalMethod">Preferred Contact Method</label>
+                    <select id="portalMethod" class="form-select">
+                      <option value="Email">Email</option>
+                      <option value="Phone">Phone Call</option>
+                      <option value="WhatsApp">WhatsApp</option>
+                      <option value="SMS">SMS Text</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="portalType">Enquiry Type *</label>
+                  <select id="portalType" class="form-select" required>
+                    <option value="Sales">Sales & Quotation Request</option>
+                    <option value="General Support">General Support</option>
+                    <option value="Complaint">Complaint</option>
+                    <option value="Billing">Billing & Invoice</option>
+                    <option value="Technical Support">Technical Support</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="portalSubject">Subject *</label>
+                  <input type="text" id="portalSubject" class="form-input" placeholder="e.g. Enterprise Quotation for Logistics Service" required />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="portalMessage">Full Message / Requirements *</label>
+                  <textarea id="portalMessage" class="form-textarea" rows="4" placeholder="Please describe what you need assistance with..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                  <span>Submit Ticket & Get Ticket ID</span>
+                </button>
+              </form>
+            </div>
+
+            <!-- Box B: Track My Ticket (Customer Security & Isolation) -->
+            <div class="card p-6">
+              <div class="card-header-clean mb-3">
+                <div>
+                  <h3 class="card-title-md">Track Existing Ticket</h3>
+                  <p class="card-subtitle-sm">For security, enter your unique Ticket ID and email to view your status.</p>
+                </div>
+              </div>
+
+              <form id="portalTrackForm" class="auth-form mb-4">
+                <div class="form-group">
+                  <label class="form-label" for="trackTicketId">Ticket ID *</label>
+                  <input type="text" id="trackTicketId" class="form-input" placeholder="e.g. QF-1048" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="trackEmail">Email Address *</label>
+                  <input type="email" id="trackEmail" class="form-input" placeholder="your-email@company.com" required />
+                </div>
+                <button type="submit" class="btn btn-secondary btn-block">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                  <span>Lookup Ticket</span>
+                </button>
+              </form>
+
+              <!-- Track Result Container -->
+              <div class="track-result-box hidden" id="trackResultBox">
+                <div class="track-header">
+                  <div>
+                    <span class="track-id-badge" id="resTicketId">QF-1048</span>
+                    <h4 class="track-subject" id="resSubject">Subject</h4>
+                  </div>
+                  <span class="badge" id="resStatusBadge">In Progress</span>
+                </div>
+                <div class="track-timeline" id="resTimeline">
+                  <!-- Filled via JS -->
+                </div>
+                
+                <!-- Customer Follow-Up Message Input -->
+                <div class="mt-3 pt-3 border-top">
+                  <label class="form-label text-xs" for="custReplyInput">Add Reply to this Ticket:</label>
+                  <div class="cust-reply-input-row">
+                    <input type="text" id="custReplyInput" class="form-input form-input-sm" placeholder="Write additional message..." />
+                    <button class="btn btn-primary btn-sm" id="custReplyBtn">Send</button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODALS & DRAWERS                                         -->
+  <!-- ======================================================== -->
+
+  <!-- Modal 1: Submit Customer Enquiry (Internal/Universal) -->
+  <dialog id="newEnquiryModal" class="modal-dialog">
+    <div class="modal-card modal-lg shadow-elevated">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title">Submit Customer Enquiry</h3>
+          <p class="modal-subtitle">Creates ticket, generates unique ID, and triggers AI classification.</p>
+        </div>
+        <button type="button" class="modal-close-btn" id="closeEnquiryModalBtn">&times;</button>
+      </div>
+
+      <form id="internalEnquiryForm" novalidate>
+        <div class="modal-body-scroll">
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="modalCustomerName">Customer Full Name *</label>
+              <input type="text" id="modalCustomerName" class="form-input" placeholder="e.g. Alex Morgan" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="modalCustomerEmail">Customer Email *</label>
+              <input type="email" id="modalCustomerEmail" class="form-input" placeholder="alex.morgan@acme.com" required />
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="modalCustomerPhone">Phone Number</label>
+              <input type="tel" id="modalCustomerPhone" class="form-input" placeholder="+1 (555) 019-2831" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="modalContactMethod">Preferred Contact Method</label>
+              <select id="modalContactMethod" class="form-select">
+                <option value="Email">Email</option>
+                <option value="Phone">Phone</option>
+                <option value="WhatsApp">WhatsApp</option>
+                <option value="SMS">SMS</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="modalEnquiryType">Enquiry Type *</label>
+              <select id="modalEnquiryType" class="form-select" required>
+                <option value="Sales">Sales (New Lead/Quotation)</option>
+                <option value="General Support">General Support</option>
+                <option value="Complaint">Complaint</option>
+                <option value="Billing">Billing & Invoice</option>
+                <option value="Technical Support">Technical Support</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="modalPriority">Initial Priority</label>
+              <select id="modalPriority" class="form-select">
+                <option value="Auto">Auto-Determine via AI</option>
+                <option value="Urgent">Urgent</option>
+                <option value="High">High</option>
+                <option value="Medium" selected>Medium</option>
+                <option value="Low">Low</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="modalSubject">Enquiry Subject *</label>
+            <input type="text" id="modalSubject" class="form-input" placeholder="e.g. Need pricing quotation for 5,000 pallet logistics storage" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="modalMessage">Full Customer Message *</label>
+            <textarea id="modalMessage" class="form-textarea" rows="4" placeholder="Paste or transcribe the customer's full message..." required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="modalAssignee">Assign To Employee:</label>
+            <select id="modalAssignee" class="form-select">
+              <option value="Unassigned">Auto-assign / Leave Unassigned</option>
+              <option value="Liam Chen">Liam Chen (Support)</option>
+              <option value="Maya Brooks">Maya Brooks (Sales)</option>
+              <option value="Elena Rostova">Elena Rostova (Manager)</option>
+              <option value="David Vance">David Vance (Admin)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancelEnquiryModalBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            <span>Create Ticket & Run AI Triage</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- Modal 2: Ticket Detail, Interaction History & AI Response Composer -->
+  <dialog id="ticketDetailModal" class="modal-dialog">
+    <div class="modal-card modal-xl shadow-elevated">
+      <div class="modal-header">
+        <div class="ticket-header-title-row">
+          <span class="badge" id="dtPriorityBadge">High</span>
+          <span class="ticket-id-tag" id="dtTicketId">QF-1048</span>
+          <h3 class="modal-title" id="dtSubject">Quotation request for pallet storage</h3>
+        </div>
+        <button type="button" class="modal-close-btn" id="closeTicketDetailModalBtn">&times;</button>
+      </div>
+
+      <div class="modal-body-grid">
+        
+        <!-- Left: Ticket Meta & Controls -->
+        <div class="detail-sidebar">
+          <div class="detail-group">
+            <span class="detail-label">Status</span>
+            <select id="dtStatusSelect" class="form-select form-select-sm">
+              <option value="New">New</option>
+              <option value="Unassigned">Unassigned</option>
+              <option value="Assigned">Assigned</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Waiting for Customer">Waiting for Customer</option>
+              <option value="Escalated">Escalated</option>
+              <option value="Resolved">Resolved</option>
+              <option value="Closed">Closed</option>
+            </select>
+          </div>
+
+          <div class="detail-group">
+            <span class="detail-label">Priority</span>
+            <select id="dtPrioritySelect" class="form-select form-select-sm">
+              <option value="Low">Low</option>
+              <option value="Medium">Medium</option>
+              <option value="High">High</option>
+              <option value="Urgent">Urgent</option>
+            </select>
+          </div>
+
+          <div class="detail-group">
+            <span class="detail-label">Assigned Employee</span>
+            <select id="dtAssigneeSelect" class="form-select form-select-sm">
+              <option value="Unassigned">Unassigned</option>
+              <option value="Liam Chen">Liam Chen (Support)</option>
+              <option value="Maya Brooks">Maya Brooks (Sales)</option>
+              <option value="Elena Rostova">Elena Rostova (Manager)</option>
+              <option value="David Vance">David Vance (Admin)</option>
+            </select>
+          </div>
+
+          <div class="detail-group">
+            <span class="detail-label">Department / Type</span>
+            <span class="detail-val" id="dtType">Sales</span>
+          </div>
+
+          <div class="detail-group">
+            <span class="detail-label">Customer Contact</span>
+            <div class="detail-customer-box">
+              <strong id="dtCustomerName">Sarah Jenkins</strong>
+              <div class="text-xs text-muted" id="dtCustomerEmail">sarah@acme.com</div>
+              <div class="text-xs text-muted" id="dtCustomerPhone">+1 (555) 234-9812</div>
+              <div class="text-xs text-muted" id="dtCustomerPref">Prefers: Email</div>
+            </div>
+          </div>
+
+          <div class="detail-group">
+            <span class="detail-label">Timeline Dates</span>
+            <div class="text-xs text-muted">Created: <span id="dtCreatedDate">2026-10-13 14:20</span></div>
+            <div class="text-xs text-muted">Updated: <span id="dtUpdatedDate">2026-10-13 15:10</span></div>
+            <div class="text-xs text-muted">Resolved: <span id="dtResolvedDate">—</span></div>
+          </div>
+
+          <!-- Quick Move to Sales Pipeline if Sales Type -->
+          <div class="mt-3" id="dtConvertToDealWrap">
+            <button class="btn btn-outline btn-sm btn-block purple" id="dtConvertToDealBtn">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              <span>Convert to Sales Deal</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: Interaction History, AI Suggestions, Reply Composer & Internal Notes -->
+        <div class="detail-main">
+          
+          <!-- AI Copilot Bar for this Ticket -->
+          <div class="detail-ai-bar">
+            <div class="detail-ai-header">
+              <div class="ai-badge-sm">QueueFlow AI Copilot</div>
+              <button class="btn btn-outline btn-xs" id="dtAiRerunBtn">Re-run AI Analysis</button>
+            </div>
+            <div class="detail-ai-summary" id="dtAiSummary">
+              AI Summary: Customer inquiring about 5,000 pallets storage. Budget is high. Recommended routing to Maya Brooks (Sales).
+            </div>
+            <div class="detail-ai-rec" id="dtAiNextAction">
+              Recommended Next Action: Send formal pricing sheet and schedule a 15-min discovery call.
+            </div>
+          </div>
+
+          <!-- Tab switch: Interaction Timeline vs Internal Notes -->
+          <div class="modal-subtabs">
+            <button class="modal-subtab active" id="tabInteractionsBtn">Interaction History & Timeline</button>
+            <button class="modal-subtab" id="tabNotesBtn">Internal Team Notes (<span id="notesCount">0</span>)</button>
+          </div>
+
+          <!-- Timeline pane -->
+          <div class="timeline-pane" id="timelinePane">
+            <div class="timeline-messages" id="dtMessagesList">
+              <!-- Rendered via JS -->
+            </div>
+
+            <!-- Customer Reply Composer -->
+            <div class="ticket-reply-box">
+              <div class="reply-box-header">
+                <span class="text-xs font-semibold">Send Reply to Customer</span>
+                <button class="btn btn-outline btn-xs" id="dtInsertAiDraftBtn">
+                  <svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                  <span>Insert AI Draft</span>
+                </button>
+              </div>
+              <textarea id="dtReplyTextarea" class="form-textarea form-textarea-sm" rows="3" placeholder="Write message to customer (or use AI draft above)..."></textarea>
+              <div class="reply-box-footer">
+                <span class="text-xs text-muted">Customer notified via preferred contact method.</span>
+                <button class="btn btn-primary btn-sm" id="dtSendReplyBtn">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                  <span>Send Approved Reply</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Internal Notes pane (hidden by default) -->
+          <div class="notes-pane hidden" id="notesPane">
+            <div class="notes-list" id="dtNotesList">
+              <!-- Rendered via JS -->
+            </div>
+            <div class="add-note-box">
+              <textarea id="dtNewNoteTextarea" class="form-textarea form-textarea-sm" rows="2" placeholder="Write internal team note (only visible to staff)..."></textarea>
+              <button class="btn btn-secondary btn-sm mt-2" id="dtAddNoteBtn">Add Internal Note</button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Modal 3: Add / Edit Sales Pipeline Deal -->
+  <dialog id="dealModal" class="modal-dialog">
+    <div class="modal-card modal-md shadow-elevated">
+      <div class="modal-header">
+        <h3 class="modal-title" id="dealModalTitle">Create Sales Deal</h3>
+        <button type="button" class="modal-close-btn" id="closeDealModalBtn">&times;</button>
+      </div>
+
+      <form id="dealForm" novalidate>
+        <div class="modal-body-scroll">
+          <div class="form-group">
+            <label class="form-label" for="dealName">Deal / Project Name *</label>
+            <input type="text" id="dealName" class="form-input" placeholder="e.g. Apex Global Supply Chain Expansion" required />
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="dealCustomer">Customer Contact Name *</label>
+              <input type="text" id="dealCustomer" class="form-input" placeholder="e.g. Marcus Aurelius" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="dealCompany">Company / Organization</label>
+              <input type="text" id="dealCompany" class="form-input" placeholder="e.g. Apex Logistics Ltd" />
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="dealEmail">Customer Email *</label>
+              <input type="email" id="dealEmail" class="form-input" placeholder="marcus@apex.com" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="dealPhone">Customer Phone</label>
+              <input type="tel" id="dealPhone" class="form-input" placeholder="+1 (555) 781-9922" />
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="dealValue">Estimated Deal Value ($ USD) *</label>
+              <input type="number" id="dealValue" class="form-input" placeholder="45000" min="0" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="dealStage">Pipeline Stage *</label>
+              <select id="dealStage" class="form-select" required>
+                <option value="New Lead">1. New Lead</option>
+                <option value="Contacted">2. Contacted</option>
+                <option value="Qualified">3. Qualified</option>
+                <option value="Meeting Scheduled">4. Meeting Scheduled</option>
+                <option value="Proposal Sent">5. Proposal Sent</option>
+                <option value="Negotiation">6. Negotiation</option>
+                <option value="Won">7. Won (Closed)</option>
+                <option value="Lost">Closed Lost</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="dealFollowup">Next Follow-Up Date</label>
+              <input type="date" id="dealFollowup" class="form-input" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="dealOwner">Sales Owner *</label>
+              <select id="dealOwner" class="form-select" required>
+                <option value="Maya Brooks">Maya Brooks (Sales Lead)</option>
+                <option value="David Vance">David Vance (Admin)</option>
+                <option value="Elena Rostova">Elena Rostova (Manager)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="dealNotes">Deal Notes & Value Proposition</label>
+            <textarea id="dealNotes" class="form-textarea" rows="3" placeholder="Key customer requirements, timeline, budget details..."></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancelDealModalBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="saveDealBtn">Save Deal</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- Sonner-style Rich Toast Container -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <!-- Application Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
